@@ -3,6 +3,8 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import firebase from "firebase/app"
+import 'firebase/firestore';
+import 'firebase/database';
 
 Vue.config.productionTip = false
 
@@ -18,6 +20,8 @@ const firebaseConfig = {
 };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
+// Get a reference to the database service
+
 let app;
 
 firebase.auth().onAuthStateChanged(user => {
@@ -30,6 +34,7 @@ firebase.auth().onAuthStateChanged(user => {
     }).$mount("#app");
   }
 });
+
 
 // new Vue({
 //   router,

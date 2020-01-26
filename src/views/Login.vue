@@ -4,10 +4,10 @@
 
     <form @submit.prevent="handleSubmit">
       <div class="email">
-        <input type="email" v-model="email" placeholder="Login" />
+        <input type="email" v-model="email" placeholder="Login" name="email"/>
       </div>
       <div class="password">
-        <input type="password" v-model="password" placeholder="Password" />
+        <input type="password" v-model="password" placeholder="Password" name="password"/>
       </div>
       <button type="submit">Login</button>
     </form>
@@ -15,6 +15,7 @@
     <span>
       Dont have an account? Register
       <router-link to="/register">HERE</router-link>
+      !
     </span>
   </div>
 </template>
@@ -24,6 +25,7 @@ import * as firebase from "firebase/app";
 import "firebase/auth";
 
 export default {
+  name:"login",
   data() {
     return {
       email: "",
@@ -34,16 +36,25 @@ export default {
   methods: {
     async handleSubmit() {
       try {
-        const user = await firebase
+        await firebase
           .auth()
-          .signInWithEmailAndPassword(this.email, this.password);
-        console.log("Login was Succes!", user);
-        await this.$router.replace({ name: "secret" }).catch(err => {
+          .setPersistence(firebase.auth.Auth.Persistence.SESSION)
+          .then(() => {
+            // Existing and future Auth states are now persisted in the current
+            // session only. Closing the window would clear any existing state even
+            // if a user forgets to sign out.
+            // New sign-in will be persisted with session persistence.
+            console.log(this.email);
+            return firebase.auth().signInWithEmailAndPassword(this.email, this.password);
+          });
+
+        await this.$router.replace({ name: "home" }).catch(err => {
           throw new Error(`Problem handling something: ${err}.`);
         });
       } catch (error) {
-        console.log("login Failed!");
-        console.log(error);
+        let errorCode = error.code;
+        let errorMessage = error.message;
+        console.log("Something went wrong while singing in the user. Error -" + errorCode + ": " + errorMessage);
       }
     }
   }
