@@ -1,10 +1,10 @@
 <template>
     <div>
     <div class="hero-item-name">
-        <input v-if="isEdited" type="text" class="hero-item-edit" v-model="itemData.name" @keyup.enter="handleSubmit">
+        <input v-if="isEdited" type="text" class="hero-item-edit" v-model="itemName" @keyup.enter="handleSubmit">
 
         <div v-else class="hero-item-label" @dblclick="editItem">
-            {{itemData.name}}
+            {{itemName}}
         </div>
     </div>
     </div>
@@ -17,7 +17,8 @@ export default {
     ],
     data(){
         return{
-            isEdited:false
+            isEdited:false,
+            itemName : this.itemData.name
         }
     },
     methods:{
@@ -28,7 +29,8 @@ export default {
             if(e.target.value.trim().length ===0){
                 return;
             }
-            this.itemData.name = e.target.value;
+            this.itemName = e.target.value;
+            this.isEdited = false;
         }
     }
 }

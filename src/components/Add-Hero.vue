@@ -1,8 +1,8 @@
 <template>
   <div>
-    <form @submit.prevent="handleSubmit" class="add-hero-form">
+    <form @submit.prevent="addHero" class="add-hero-form">
       <div class="add-hero-input">
-        <input type="text" v-model="hero" placeholder="Add Hero" name="Hero input" />
+        <input type="text" v-model="heroName" placeholder="Add Hero" name="Hero input" />
       </div>
       <button type="submit">ADD HERO</button>
     </form>
@@ -13,17 +13,24 @@
 //dimport * as firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/database";
+import uuid from 'uuid';
 
 export default {
   data() {
     return {
-      hero: ""
+      heroName: ""
     };
   },
   methods: {
-    handleSubmit() {
-      console.log("New Hero Was Added: " + this.hero);
+    addHero(e) {
+            const newHero = {
+                name:this.heroName,
+                id: uuid.v4()
+            }
 
+            this.$emit('add-hero', newHero);
+
+            e.target.reset();
     //   var userId = firebase.auth().currentUser.uid;
     //   //Get the user data
     //   return firebase
