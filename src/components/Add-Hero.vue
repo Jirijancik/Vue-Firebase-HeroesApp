@@ -10,11 +10,6 @@
 </template>
 
 <script>
-//dimport * as firebase from "firebase/app";
-import "firebase/auth";
-import "firebase/database";
-import uuid from 'uuid';
-
 export default {
   data() {
     return {
@@ -23,24 +18,14 @@ export default {
   },
   methods: {
     addHero(e) {
-            const newHero = {
-                name:this.heroName,
-                id: uuid.v4()
-            }
+      const newHero = {
+        name: this.heroName,
+        created: new Date().toUTCString()
+      };
 
-            this.$emit('add-hero', newHero);
+      this.$emit("add-hero", newHero);
 
-            e.target.reset();
-    //   var userId = firebase.auth().currentUser.uid;
-    //   //Get the user data
-    //   return firebase
-    //     .database()
-    //     .ref("/users/" + userId)
-    //     .once("value")
-    //     .then(function(snapshot) {
-    //         console.log(snapshot)
-    //       //Do something with your user data located in snapshot
-    //     });
+      e.target.reset();
     }
   }
 };

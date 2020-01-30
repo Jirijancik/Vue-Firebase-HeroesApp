@@ -43,7 +43,7 @@ export default {
               .createUserWithEmailAndPassword(this.email, this.password);
           });
 
-         await this.storeUsersProfile(user.user.uid ,user.user.email);
+        await this.storeUsersProfile(user.user.uid, user.user.email);
 
         await this.$router.replace({ name: "home" }).catch(err => {
           throw new Error(`Problem handling something: ${err}.`);
@@ -68,11 +68,14 @@ export default {
         .database()
         .ref("users/" + userId)
         .set({
-         // username: name,
-          email: email
+          // username: name,
+          email: email,
+          created: new Date().toUTCString(),
+          heroList:null
+
           //some more user data
         });
-      console.log("userId: " + userId + "Email: " + email, database)
+      console.log("userId: " + userId + "Email: " + email, database);
     }
   }
 };
