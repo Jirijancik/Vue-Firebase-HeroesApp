@@ -6,10 +6,13 @@
       <div class="email">
         <input type="email" v-model="email" placeholder="Login" name="email"/>
       </div>
+
       <div class="password">
         <input type="password" v-model="password" placeholder="Password" name="password"/>
       </div>
+
       <button type="submit">Login</button>
+      
     </form>
     <div v-if="error" class="error">{{error.message}}</div>
     <span>

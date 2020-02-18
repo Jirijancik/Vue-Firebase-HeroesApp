@@ -30,7 +30,6 @@ export default {
     handleAddHero(newHero) {
       this.addHeroToDb(newHero);
       this.getHeresFromDb();
-      //this.heroListData = [...this.heroListData, newHero];
     },
     async addHeroToDb(newHero) {
       const USER_KEY = await firebase.auth().currentUser.uid;

@@ -6,14 +6,18 @@
 
     </div>
 
-    <div class="logged-msg" v-else>
-      Logged as: {{user}}
-
+    <div class="profile-component" v-else>
+      Logged as:
+      <router-link to="/profile">
+      <button>{{user.userName}}</button>
+      </router-link >
       <div>
         <button @click="handleSignOut">Sing Out</button>
       </div>
       
     </div>
+
+
 
   </div>
 </template>
@@ -26,7 +30,9 @@ export default {
   created() {
     firebase.auth().onAuthStateChanged(user => {
       this.isLoggedIn = !!user;
-      this.user = user.email;
+      if(this.isLoggedIn){
+        this.user = user;
+      }
     });
   },
   data() {
@@ -55,5 +61,14 @@ export default {
   background-color: #333;
   height: 65px;
   color: white;
+  width: 100%;
+}
+.profile-component{
+  position: relative;
+  float: right;
+  width: 400px;
+  margin-left: auto;
+  margin-right: 0;
+  right: 0;
 }
 </style>

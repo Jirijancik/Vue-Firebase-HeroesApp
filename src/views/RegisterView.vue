@@ -3,12 +3,19 @@
     <h1>Register</h1>
     <div v-if="error" class="error">{{error.message}}</div>
     <form @submit.prevent="handleSubmit">
+
       <div class="email">
         <input type="email" v-model="email" placeholder="Email" name="email" />
       </div>
+
+      <div class="userName">
+        <input type="text" v-model="userName" placeholder="User Name" name="user name" />
+      </div>
+
       <div class="password">
         <input type="password" v-model="password" placeholder="Password" name="password" />
       </div>
+
       <button type="submit">Register</button>
     </form>
   </div>
@@ -23,6 +30,7 @@ export default {
   data() {
     return {
       email: "",
+      userName: "",
       password: "",
       error: ""
     };
@@ -43,7 +51,7 @@ export default {
               .createUserWithEmailAndPassword(this.email, this.password);
           });
 
-        await this.storeUsersProfile(user.user.uid, user.user.email);
+        await this.storeUsersProfileData(user.user.uid, user.user.email, this.userName);
 
         await this.$router.replace({ name: "home" }).catch(err => {
           throw new Error(`Problem handling something: ${err}.`);
@@ -59,7 +67,7 @@ export default {
         );
       }
     },
-    async storeUsersProfile(userId, email) {
+    async storeUsersProfileData(userId, email, userName) {
       // Get a reference to the database service
       let database = firebase.database();
       // save the user's profile into Firebase so we can list users,
@@ -68,14 +76,12 @@ export default {
         .database()
         .ref("users/" + userId)
         .set({
-          // username: name,
           email: email,
+          userName: userName,
           created: new Date().toUTCString(),
           heroList:null
-
-          //some more user data
         });
-      console.log("userId: " + userId + "Email: " + email, database);
+      console.log("userId: " + userId + "Email: " + email + "User Name: " + userName, database);
     }
   }
 };

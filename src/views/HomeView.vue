@@ -7,7 +7,7 @@
 </template>
 
 <script>
-    import HeroTable from "../components/Hero-Table";
+import HeroTable from "../components/Hero-Table";
 
 export default {
   components: { "hero-table": HeroTable }

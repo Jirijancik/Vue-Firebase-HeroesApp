@@ -1,8 +1,9 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Register from "../views/Register.vue";
-import Login from "../views/Login.vue";
-import Home from "../views/Home.vue";
+import Register from "../views/RegisterView.vue";
+import Login from "../views/LoginView.vue";
+import Home from "../views/HomeView.vue";
+import Profile from "../views/ProfileSettingsView.vue";
 
 import * as firebase from "firebase/app";
 import "firebase/auth";
@@ -25,6 +26,12 @@ const routes = [
     path: "/register",
     name: "register",
     component: Register
+  },
+  {
+    path: "/profile",
+    name: "profile",
+    component: Profile,
+    meta: { requiresAuth: true }
   }
 ];
 
