@@ -9,7 +9,7 @@
     <div class="profile-component" v-else>
       Logged as:
       <router-link to="/profile">
-      <button>{{user.userName}}</button>
+      <button>{{getUserName()}}</button>
       </router-link >
       <div>
         <button @click="handleSignOut">Sing Out</button>
@@ -23,6 +23,7 @@
 </template>
 
 <script>
+import {mapState, mapMutations, mapActions, mapGetters} from 'vuex';
 import * as firebase from "firebase/app";
 import "firebase/auth";
 
@@ -32,17 +33,25 @@ export default {
       this.isLoggedIn = !!user;
       if(this.isLoggedIn){
         this.user = user;
+        
       }
+      this.setUserDataState();
     });
   },
   data() {
     return {
       isLoggedIn: false,
-      user:''
+      user:'',
     };
   },
   methods: {
-    async handleSignOut() {
+      ...mapGetters(['getUserName']),
+      ...mapMutations(['SET_USER_DATA']),
+      ...mapActions(['setUserData']),
+      setUserDataState(){
+        this.setUserData();
+      },
+      async handleSignOut() {
       try {
         const data = await firebase.auth().signOut();
         console.log(data);
@@ -51,6 +60,11 @@ export default {
         console.log(error);
       }
     }
+  },
+  computed:{
+    ...mapState([
+      'userName'
+    ])
   }
 };
 </script>
